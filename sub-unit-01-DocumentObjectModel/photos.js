@@ -13,7 +13,7 @@
 /* global variables */
 var photoOrder = [1,2,3,4,5];
 var figureCount = 3;
-// var autoAdvance = setInterval(rightAdvance, 1000);
+var autoAdvance = setInterval(rightAdvance, 1000);
 
 // apply a src attribute to an image element
 function populateFigures(){
@@ -34,8 +34,14 @@ function populateFigures(){
    }
 }
 
-/* shift all images one figure to the left, and change values in photoOrder array to match  */
+
 function rightArrow() {
+   clearInterval(autoAdvance);
+   rightAdvance();
+}
+
+/* shift all images one figure to the left, and change values in photoOrder array to match  */
+function rightAdvance() {
    for (var i = 0; i < 5; i++) {
       if ((photoOrder[i] + 1) === 6) {
          photoOrder[i] = 1;
@@ -48,6 +54,7 @@ function rightArrow() {
 
 /* shift all images one figure to the right, and change values in photoOrder array to match  */
 function leftArrow() {
+   clearInterval(autoAdvance);
    for (var i = 0; i < 5; i++) {
       if ((photoOrder[i] - 1) === 0) {
          photoOrder[i] = 5;
@@ -90,11 +97,44 @@ function previewFive() {
 
    var numberButton = document.querySelector("#fiveButton p");
    numberButton.innerHTML = "Show fewer images";
+
+   if (numberButton.addEventListener) {
+      numberButton.removeEventListener("click", previewFive, false);
+      numberButton.addEventListener("click", previewThree, false);
+   } else if (numberButton.attachEvent) {
+      numberButton.detachEvent("onclick", previewFive);
+      numberButton.attachEvent("onclick", previewThree);
+   }
 }
 
+function previewThree() {
+   var articleElem = document.getElementsByTagName("article")[0];
+   var numberButton = document.querySelector("#fiveButton p");
+   articleElem.removeChild(document.getElementById("fig1"));
+   articleElem.removeChild(document.getElementById("fig5"));
+
+   figureCount = 3;
+   numberButton.innerHTML = "Show more images";
+   if (numberButton.addEventListener) {
+      numberButton.removeEventListener("click", previewThree, false);
+      numberButton.addEventListener("click", previewFive, false);
+   } else if (numberButton.attachEvent) {
+      numberButton.detachEvent("onclick", previewThree);
+      numberButton.attachEvent("onclick", previewFive);
+   }
+}
+   
 /* open center figure in separate window */
 function zoomFig() {
-
+   var zoomWindow = window.open("zoom.html", "zoomwin",winOptions);
+   zoomWindow.focus();
+   var propertyWidth = 960;
+   var propertyHeight =600;
+   var winLeft = ((screen.width - propertyWidth) / 2);
+   var winTop = ((screen.height - propertyHeight) / 2);
+   var winOptions = "width=960,height=600,";
+   winOptions += ",left=" + winLeft;
+   winOptions += ",top=" + winTop;
 }
 
 // create event listeners to listen for when a certain event listener is fired
