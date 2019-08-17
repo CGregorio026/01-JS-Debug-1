@@ -4,19 +4,19 @@ I feel somewhat comfortable in my JavaScript skills, but I could always use some
 
 Please describe in detail the types of "bugs" a coder can expect to encounter when coding a web page with JavaScript. Describe the techniques you have learned to resolve the types of bugs that we have examined so far. Quote an outside source containing information on resolving this type of bug.
 
-
+Syntax errors, which can be solved by a linter, Logic errors, which can be solved by using breakpoints and logging to the console, and run-time errors, which can most easily be resolved by using break points.
 
 Please describe in detail, in your own words, the difference between syntax bugs and logic bugs. Describe the differences in technique in the way that they are resolved. Use an outside source to provide additional information that is relevant to this particular subject matter.
 
-
+Syntax bugs are when the code is written incorrectly to where individual lines of code will not run, as they have some error in the way that they are written. Logic errors usually persist over multiple lines, and have to do with they way that the lines of code in that order run. Syntax errors can easily be solved with the usage of a linter, such as ESLint, while logic errors require the usage of debugging techniques such as breakpoints, or looking at the order that functions are being called in the call stack. 
 
 Please describe in detail, in your own words, the three different techniques that we have learned so far to resolve logic bugs. What are the advantages and disadvantages of each method?  For this bell work, you do not need to use an outside source to provide additional information that is relevant to this particular subject matter.
 
-
+Break mode/breakpoints, which are used to find out what happens at what point, the call stack, which finds out which functions are being called when, and stepping in/out, which are used to go back and forth between functions.
 
 Please describe in detail, in your own words, what we can use a debugger for and how it is used. For what types of situations is a debugger the best choice for resolving bugs? What are the advantages and disadvantages of using a debugger?  For this bell work, you do not need to use an outside source to provide additional information that is relevant to this particular subject matter.
 
-
+We can use a debugger to help us discover where the logic errors may be located.
 
 Please describe in detail, in your own words, the four JavaScript key words that are used for Exception Handling. Briefly describe the purpose of each. What are the advantages of the using the techniques of Exception Handling in your coding? For this bell work, you do not need to use an outside source to provide additional information that is relevant to this particular subject matter.
 

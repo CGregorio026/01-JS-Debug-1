@@ -51,6 +51,11 @@ function updateDays() {
         else if (selectedMonth === "1" || selectedMonth ==="3" || selectedMonth === "5" || selectedMonth === "7" || selectedMonth === "8" || selectedMonth === "10" || selectedMonth === "12") {
         deliveryDay.appendChild(thirtyOne.cloneNode(true));
         }
+
+        var deliveryYear = document.getElementById("delivYr");
+        if (deliveryMonth.selectedIndex === -1) {
+        return
+    }
 }
 
 function removeSelectDefaults() {
@@ -109,6 +114,165 @@ function validateAddress(fieldsetId) {
         }
 }
 
+function validateDeliveryDate() {
+    var selectElements = document.querySelectorAll("#deliveryDate select");
+    var errorDiv = document.querySelector("#deliveryDate.errorMessage");
+    var fieldsetValidity = true;
+    var elementCount = selectElements.length;
+    var currentElement;
+
+    try {
+        for (var i = 0; i < elementCount; i++) {
+        currentElement = selectElements[i];
+        if (currentElement.selectedIndex === -1) {
+        currentElement.style.border = "1px solid red";
+        fieldsetValidity = false;
+        } else {
+        currentElement.style.border = "";
+        }
+    }
+        
+    if (fieldsetValidity === false) {
+        throw "Please specify a Delivery Date.";
+        } else {
+        errorDiv.style.display = "none";
+        errorDiv.innerHTML = "";
+        }
+        } catch (msg) {
+        errorDiv.style.display = "block";
+        errorDiv.innerHTML = msg;
+        formValidity = false;
+    }
+}
+
+function validatePayment() {
+    var selectElements = document.querySelectorAll("#deliveryDate select");
+    var errorDiv = document.querySelector("#deliveryDate.errorMessage");
+    var fieldsetValidity = true;
+    var elementCount = selectElements.length;
+    var currentElement;
+
+    try {
+        alert("In the try block");
+        if (fieldsetValidity === false) {
+        throw "Please complete all Payment information.";
+        } else {
+        errorDiv.style.display = "none";
+        errorDiv.innerHTML = "";
+        }
+    }
+    catch (msg) {
+    errorDiv.style.display = "block";
+    errorDiv.innerHTML = msg;
+    formValidity = false;
+    }
+
+    if (!cards[0].checked && !cards[1].checked && !cards[2].checked && !cards[3].checked) {
+        for (var i = 0; i < cards.length; i++) {
+        cards[i].style.outline = "1px solid red";
+        }
+        fieldsetValidity = false;
+        } else {
+        for (var i = 0; i < cards.length; i++) {
+        cards[i].style.outline = "";
+        }
+    }
+
+    if (ccNumElement.value === "") {
+    ccNumElement.style.background = "rgb(255,233,233)";
+    fieldsetValidity = false;
+    } else {
+    ccNumElement.style.background = "white";
+    }
+
+    for (var i = 0; i < selectElements.length; i++) {
+        currentElement = selectElements[i];
+        if (currentElement.selectedIndex === -1) {
+        currentElement.style.border = "1px solid red";
+        fieldsetValidity = false;
+        } else {
+        currentElement.style.border = "";
+        }
+    }
+
+        if (cvvElement.value === "") {
+        cvvElement.style.background = "rgb(255,233,233)";
+        fieldsetValidity = false;
+        } else {
+        cvvElement.style.background = "white";
+    }
+}
+
+function validateMessage() {
+    var errorDiv = document.querySelector("#message.errorMessage");
+    var msgBox = document.getElementById("customText");
+
+    try {
+        alert("In the try block");
+        }
+    catch (msg) {
+    errorDiv.style.display = "block";
+    errorDiv.innerHTML = msg;
+    msgBox.style.background ="rgb(255,233,233)";
+    formValidity = false;
+    }
+
+    if (document.getElementById("custom").checked && ((msgBox.value === "") || (msgBox.value === msgBox.placeholder))) {
+    throw "Please enter your Message text.";
+    } else {
+    errorDiv.style.display = "none";
+    msgBox.style.background = "white";
+    }
+}
+
+function validateCreateAccount() {
+    var errorDiv = document.querySelector("#createAccount.errorMessage");
+        var usernameElement = document.getElementById("username");
+        var pass1Element = document.getElementById("pass1");
+        var pass2Element = document.getElementById("pass2");
+        var passwordMismatch = false;
+        var invColor = "rgb(255,233,233)";
+        var fieldsetValidity = true;
+
+        usernameElement.style.background = "";
+pass1Element.style.background = "";
+pass2Element.style.background = "";
+errorDiv.style.display = "none";
+
+    try {
+        if (usernameElement.value !== "" && pass1Element.value !== "" && pass2Element.value !== "") {
+            if (pass1Element.value !== pass2Element.value) {
+            passwordMismatch = true;
+            throw "Passwords entered do not match, please reenter.";
+            }
+        } else if (usernameElement.value === "" && pass1Element.value === "" && pass2Element.value === "") {
+            fieldsetValidity = true;
+            } else {
+            fieldsetValidity = false;
+            throw "Please enter all fields to Create Account.";
+        }
+    }
+
+
+
+    catch (msg) {
+    errorDiv.style.display = "block";
+    errorDiv.innerHTML = msg;
+    formValidity = false;
+    if (passwordMismatch) {
+    usernameElement.style.background = "";
+    pass1Element.style.background = invColor;
+    pass2Element.style.background = invColor;
+    }
+}
+
+ if (passwordMismatch) {
+    usernameElement.style.background = "";
+    } else {
+    usernameElement.style.background = invColor;
+    }
+}
+
 function validateForm(evt) {
     if (evt.preventDefault) {
     evt.preventDefault();
@@ -119,6 +283,10 @@ function validateForm(evt) {
 
     validateAddress("billingAddress");
     validateAddress("deliveryAddress");
+    validateDeliveryDate();
+    validatePayment();
+    validateMessage();
+    validateCreateAccount();
 
     if (formValidity === true) {
         document.getElementById("errorText").innerHTML = "";
@@ -135,13 +303,20 @@ function validateForm(evt) {
     for (var i = 0; i < elementCount; i++) {
         currentElement = inputElements[i];
         if (currentElement.value === "") {
-        debugger;
         currentElement.style.background = "rgb(255,233,233)";
         fieldsetValidity = false;
         } else {
         currentElement.style.background = "white";
         }
     }
+
+    currentElement = document.querySelector("#" + fieldsetId + " select");
+        if (currentElement.selectedIndex === -1) {
+        currentElement.style.border = "1px solid red";
+        fieldsetValidity = false;
+        }else {
+        currentElement.style.border = "";
+        }
 
     if (fieldsetValidity === false) {
         if (fieldsetId === "billingAddress") {
