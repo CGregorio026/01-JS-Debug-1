@@ -69,7 +69,7 @@ function removeSelectDefaults() {
 function setUpPage() {
     removeSelectDefaults();
     setUpDays();
-    createEventListeners();
+    createEventListener();
 }
 
 function autoCheckCustom() {
